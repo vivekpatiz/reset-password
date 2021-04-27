@@ -9,7 +9,7 @@ const rndm = require('random-simple')
 app.use(bodyParser.urlencoded({ extended: true }))
 const nodemailer = require("nodemailer")
 
-app.listen(3001 || process.env.PORT);
+app.listen(process.env.PORT);
 
 let users = []
 let urls = []
@@ -46,7 +46,7 @@ app.get("/random", function (req, res) {
     res.json(token)
 })
 
-
+//Resetting the password through sending link through email
 app.post('/reset', function (req, res) {
     User.findOne({ email: req.body.email }, function (error, userData) {
         if(userData==null)
@@ -56,10 +56,7 @@ app.post('/reset', function (req, res) {
                 msg: "Email is not register",
             });
         }
-        var transporter = nodemailer.createTransport({
-            // service: 'gmail',//smtp.gmail.com  //in place of service use host...
-
-           
+        var transporter = nodemailer.createTransport({     
             host: "smtp.mailtrap.io",
             port: 2525,
             auth: {
